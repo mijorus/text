@@ -23,6 +23,7 @@
 import TipTapLink from '@tiptap/extension-link'
 import { domHref, parseHref } from './../helpers/links.js'
 import { linkClicking } from '../plugins/links.js'
+import { isMarkActive } from '@tiptap/core'
 
 const Link = TipTapLink.extend({
 
@@ -73,11 +74,11 @@ const Link = TipTapLink.extend({
 			 * Insert a link if there currently is none.
 			 *
 			 */
-			insertOrSetLink: (active, text, attrs) => ({ state, chain, commands }) => {
+			insertOrSetLink: (text, attrs) => ({ state, chain, commands }) => {
 				// Check if any text is selected,
 				// if not insert the link using the given text property
 				if (state.selection.empty) {
-					if (active) {
+					if (isMarkActive(state, this.name)) {
 						commands.deleteNode('paragraph')
 					}
 					return chain().insertContent({
