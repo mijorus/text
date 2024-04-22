@@ -540,7 +540,7 @@ Cypress.Commands.add('showHiddenFiles', (value = true) => {
 		})
 })
 
-Cypress.Commands.add('createDescription', () => {
+Cypress.Commands.add('createDescription', (buttonLabel = 'Add folder description') => {
 	const url = '**/remote.php/dav/files/**'
 	cy.intercept({ method: 'PUT', url })
 		.as('addDescription')
