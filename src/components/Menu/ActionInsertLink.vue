@@ -232,11 +232,7 @@ export default {
 			getLinkWithPicker(null, true)
 				.then(link => {
 					const chain = this.$editor.chain()
-					if (this.$editor.view.state?.selection.empty) {
-						chain.focus().insertContent(link + ' ').run()
-					} else {
-						chain.setLink({ href: link }).focus().run()
-					}
+					chain.focus().insertPreview(link).run()
 				})
 				.catch(error => {
 					console.error('Smart picker promise rejected', error)

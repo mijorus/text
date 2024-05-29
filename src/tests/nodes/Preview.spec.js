@@ -39,6 +39,21 @@ describe('Preview extension', () => {
 		expect(node.attrs.href).toBe('https://nextcloud.com')
 	})
 
+	it('inserts preview', () => {
+		const editor = createEditorWithPreview()
+		editor.commands.insertPreview('https://nextcloud.com')
+		console.info(editor.getJSON().content[0].content)
+		let previewNode
+		editor.state.doc.content.descendants((node) => {
+			if (node.type === 'preview') {
+				previewNode = node
+			}
+		})
+		expect(previewNode.type.name).toBe('preview')
+		expect(previewNode.attrs.title).toBe('preview')
+		expect(previewNode.attrs.href).toBe('https://nextcloud.com')
+	})
+
 })
 
 function createEditorWithPreview() {
