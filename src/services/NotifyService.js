@@ -21,11 +21,15 @@
 
 import mitt from 'mitt'
 import { listen } from '@nextcloud/notify_push'
+import { loadState } from '@nextcloud/initial-state'
 
 if (!window._nc_text_notify) {
-	const useNotifyPush = listen('text_steps', (messageType, messageBody) => {
-		window._nc_text_notify?.emit('notify_push', { messageType, messageBody })
-	})
+	const isPushEnabled = loadState('text', 'notify_push', false)
+	const useNotifyPush = isPushEnabled
+		? listen('text_steps', (messageType, messageBody) => {
+			window._nc_text_notify?.emit('notify_push', { messageType, messageBody })
+		})
+		: undefined
 	window._nc_text_notify = useNotifyPush ? mitt() : null
 }
 
