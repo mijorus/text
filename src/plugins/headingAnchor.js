@@ -56,11 +56,7 @@ export default function headingAnchor() {
 }
 
 /**
- * Check if the headings provided have the same ids.
- *
- * This is enough to ensure no updates are needed
- * as the id includes a slugified version of the text
- * and the level.
+ * Check if the headings provided are equivalent.
  *
  * @param {Array} current - array of headings
  * @param {Array} other - headings to compare against
@@ -69,7 +65,21 @@ export default function headingAnchor() {
  */
 function sameHeadings(current, other) {
 	if (current.length !== other.length) return false
-	return current.every((heading, i) => heading.id === other[i].id)
+	return current.every(isEquivalentTo(other))
+}
+
+/**
+ * Check if headings are equivalent - i.e. have the same id and level
+ *
+ * @param {Array} other - headings to compare against
+ *
+ * Returns a function to be used in a call to Array#every.
+ * The returned function takes a heading and an index (as provided by iterators)
+ * and compares the id and level of the heading to the one in `other` with the same index.
+ */
+const isEquivalentTo = (other) => (heading, i) => {
+	return heading.id === other[i].id
+		&& heading.level === other[i].level
 }
 
 /**
